@@ -13,6 +13,7 @@
 		<java.version>1.6</java.version>
 		<!-- Plugins -->
 		<maven.compiler.version>2.3.2</maven.compiler.version>
+		<maven.eclipse.version>2.7</maven.eclipse.version>
 	</properties>
 
 	<build>
@@ -27,6 +28,21 @@
 					<showWarnings>true</showWarnings>
 				</configuration>
 				<version>${maven.compiler.version}</version>
+			</plugin>
+			<!-- IDE -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>${maven.eclipse.version}</version>
+				<!-- Note 2.8 does not work with AspectJ aspect path -->
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+					<wtpversion>2.0</wtpversion>
+					<additionalProjectnatures>
+						<projectnature>org.eclipse.m2e.core.maven2Nature</projectnature>
+					</additionalProjectnatures>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
