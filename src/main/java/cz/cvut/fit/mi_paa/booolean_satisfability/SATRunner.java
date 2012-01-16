@@ -1,7 +1,16 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import cz.cvut.fit.mi_paa.booolean_satisfability.builder.Builder;
+import cz.cvut.fit.mi_paa.booolean_satisfability.builder.FormulaBuilder;
+import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
+import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Row;
 
 public class SATRunner {
 
@@ -13,8 +22,8 @@ public class SATRunner {
 			String[] files = { args[0] };
 			for (String file : files) {
 				System.out.println(file);
-				SATReader kr = getSATReader(file);
-				solveSAT(kr, Integer.parseInt(args[1]));
+				FormulaReader kr = getFormulaReader(file);
+				solveFormula(kr, Integer.parseInt(args[1]));
 			}
 		} catch (Exception e) {
 			help(e.getMessage());
@@ -24,12 +33,18 @@ public class SATRunner {
 		}
 	}
 
-	private static SATReader getSATReader(String file) {
-		return null;
+	private static FormulaReader getFormulaReader(String file) throws FileNotFoundException {
+		return new FormulaReader(new File(file));
 	}
 
-	private static void solveSAT(SATReader kr, int parseInt) {
-		
+	private static void solveFormula(FormulaReader kr, int loopCount) {
+		List<Row> rows = new ArrayList<Row>();
+		while (kr.hasNext()) {
+			rows.add(kr.next());
+		}
+		Builder<Formula> builder = new FormulaBuilder(rows.toArray(new Row[rows.size()]));
+		builder.build();
+		Formula formula = builder.getObject();
 	}
 
 	private static long getCpuTime() {

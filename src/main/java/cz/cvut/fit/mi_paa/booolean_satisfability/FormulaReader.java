@@ -8,13 +8,13 @@ import java.util.Iterator;
 
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Row;
 
-public class SATReader implements Iterator<Row> {
+public class FormulaReader implements Iterator<Row> {
 
 	private BufferedReader br;
 
 	private String line;
 
-	public SATReader(File file) throws FileNotFoundException {
+	public FormulaReader(File file) throws FileNotFoundException {
 		this.br = new BufferedReader(new FileReader(file));
 	}
 

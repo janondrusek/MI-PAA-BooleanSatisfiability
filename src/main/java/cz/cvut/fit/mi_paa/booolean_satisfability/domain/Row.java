@@ -8,11 +8,19 @@ public class Row {
 		this.line = line;
 	}
 
+	public String getLine() {
+		return line;
+	}
+
+	public boolean isMetaInfo() {
+		return line.startsWith("p");
+	}
+
 	public boolean isWeight() {
 		return line.startsWith("w");
 	}
 
 	public boolean isClause() {
-		return line.matches("^-?[0-9]+");
+		return line.matches("^\\s*(-?[0-9]+\\s?){2,}");
 	}
 }
