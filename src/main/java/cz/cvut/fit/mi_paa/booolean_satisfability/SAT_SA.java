@@ -212,8 +212,8 @@ public class SAT_SA {
 			}
 
 		} else { // the item is not present, so let's check if it fits in
-		// System.out.println("delta < 0");
-		// if ((state.weight + variables[neighbour].weight) <= maxWeight) {
+			// System.out.println("delta < 0");
+			// if ((state.weight + variables[neighbour].weight) <= maxWeight) {
 			// ok it fits
 			// state.valuesOfVariables[neighbour] =
 			// !state.valuesOfVariables[neighbour];
@@ -266,6 +266,10 @@ public class SAT_SA {
 			penaltyFactor = Double.parseDouble(args[7]);
 			outputFileName = args[8];
 
+		} else if (args.length == 2) {
+			fileName = args[1];
+			fileNameAdd = "";
+			dirName = args[0];
 		} else {
 			fileName = "uf20-010_w.cnf";
 			fileNameAdd = "";
@@ -276,9 +280,9 @@ public class SAT_SA {
 		File outputDir = new File("solution", dirName);
 		// outputDir.mkdirs();
 		String[] inFile = (fileName).split("\\.");
-		String mySolutionFileString = "solution/" + dirName + "/" + inFile[0] + "_" + fileNameAdd + "_sol_SA."
+		String mySolutionFileString = dirName + "/solution/" + inFile[0] + "_" + fileNameAdd + "_sol_SA."
 				+ inFile[1];
-		String myTimesFileString = "solution/" + dirName + "/" + inFile[0] + "_" + fileNameAdd + "_tim_SA." + inFile[1];
+		String myTimesFileString = dirName + "/solution/" + inFile[0] + "_" + fileNameAdd + "_tim_SA." + inFile[1];
 		try {
 			BufferedReader instancesFile = new BufferedReader(new FileReader(inputFile));
 			mySolutionFile = new FileWriter(mySolutionFileString);
