@@ -48,8 +48,8 @@ public class SATRunner {
 		Formula formula = builder.getObject();
 		Resolver[] resolvers = new Resolver[] { new SimulatedAnnealingResolver() };
 		for (Resolver resolver : resolvers) {
-			Results results = resolver.getResults(loopCount, formula);
-			System.out.println(results);
+			Result result = resolver.getResult(loopCount, formula);
+			System.out.println(result);
 		}
 	}
 

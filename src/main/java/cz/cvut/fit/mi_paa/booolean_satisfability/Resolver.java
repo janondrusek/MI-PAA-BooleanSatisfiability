@@ -4,5 +4,5 @@ import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
 
 public interface Resolver {
 
-	public Results getResults(Integer loopCount, Formula formula);
+	public Result getResult(Integer loopCount, Formula formula);
 }
