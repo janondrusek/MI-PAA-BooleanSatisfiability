@@ -11,6 +11,7 @@ import cz.cvut.fit.mi_paa.booolean_satisfability.builder.Builder;
 import cz.cvut.fit.mi_paa.booolean_satisfability.builder.FormulaBuilder;
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Row;
+import cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing.SimulatedAnnealingResolver;
 
 public class SATRunner {
 
@@ -45,6 +46,11 @@ public class SATRunner {
 		Builder<Formula> builder = new FormulaBuilder(rows.toArray(new Row[rows.size()]));
 		builder.build();
 		Formula formula = builder.getObject();
+		Resolver[] resolvers = new Resolver[] { new SimulatedAnnealingResolver() };
+		for (Resolver resolver : resolvers) {
+			Results results = resolver.getResults(loopCount, formula);
+			System.out.println(results);
+		}
 	}
 
 	private static long getCpuTime() {
