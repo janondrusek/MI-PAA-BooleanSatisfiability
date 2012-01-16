@@ -1,8 +1,13 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing;
 
 import ure.phd.simulatedannealing.interfaces.SimulatedAnnealingProblem;
+import cz.cvut.fit.mi_paa.booolean_satisfability.domain.State;
 
 public class SimulatedAnnealingResolver extends AbstractResolver implements SimulatedAnnealingProblem {
+
+	private State current;
+
+	private State next;
 
 	@Override
 	protected void createResult() {
@@ -11,7 +16,7 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 
 	@Override
 	public void init() {
-
+		current = new State(getFormula());
 	}
 
 	@Override
@@ -26,12 +31,12 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 
 	@Override
 	public double getCostForNextState() {
-		return 0;
+		return next.getCost();
 	}
 
 	@Override
 	public void goToNextState() {
-
+		current = next;
 	}
 
 	@Override

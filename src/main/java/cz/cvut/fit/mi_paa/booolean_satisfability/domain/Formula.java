@@ -19,4 +19,8 @@ public class Formula {
 		return weights;
 	}
 
+	public Integer getNumOfVariables() {
+		return new Integer(getWeights().length);
+	}
+
 }
