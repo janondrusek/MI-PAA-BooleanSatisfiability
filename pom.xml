@@ -10,7 +10,7 @@
 	<properties>
 		<!-- Maven -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.6</java.version>
+		<java.version>1.7</java.version>
 		<!-- Plugins -->
 		<maven.compiler.version>2.3.2</maven.compiler.version>
 		<maven.eclipse.version>2.7</maven.eclipse.version>
