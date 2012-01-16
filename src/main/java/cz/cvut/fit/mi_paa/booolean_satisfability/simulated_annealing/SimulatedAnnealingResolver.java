@@ -1,15 +1,12 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing;
 
 import ure.phd.simulatedannealing.interfaces.SimulatedAnnealingProblem;
-import cz.cvut.fit.mi_paa.booolean_satisfability.Resolver;
-import cz.cvut.fit.mi_paa.booolean_satisfability.Result;
-import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
 
-public class SimulatedAnnealingResolver implements Resolver, SimulatedAnnealingProblem {
+public class SimulatedAnnealingResolver extends AbstractResolver implements SimulatedAnnealingProblem {
 
 	@Override
-	public Result getResult(Integer loopCount, Formula formula) {
-		return null;
+	protected void createResult() {
+		setResult(new SimulatedAnnealingResult());
 	}
 
 	@Override
