@@ -36,15 +36,10 @@ public class State {
 	}
 
 	public double getCost(Formula formula) {
-		double cost = 0;
+		double cost = formula.getWeightsSum();
 		for (int i = 0; i < getValues().length; i++) {
-			cost += values[i].booleanValue() ? formula.getWeights()[i].doubleValue() : 0;
+			cost -= values[i].booleanValue() ? formula.getWeights()[i].doubleValue() : 0;
 		}
-
-		if (!formula.isSatisfiable()) {
-			cost -= formula.getWeightsSum().doubleValue();
-		}
-
 		return cost;
 	}
 

@@ -1,5 +1,7 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.domain;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 public class Formula {
 
 	private Clause[] clauses;
@@ -26,15 +28,11 @@ public class Formula {
 	}
 
 	public Boolean isSatisfiable() {
-		boolean satisfiable = true;
-		for (Clause clause : getClauses()) {
-			satisfiable = satisfiable && clause.getValue(getState()).booleanValue();
+		boolean[] values = new boolean[getClauses().length];
+		for (int i = 0; i < getClauses().length; i++) {
+			values[i] = getClauses()[i].getValue(getState());
 		}
-
-		if (satisfiable) {
-			System.out.println(getState());
-		}
-		return new Boolean(satisfiable);
+		return new Boolean(BooleanUtils.and(values));
 	}
 
 	public State getState() {

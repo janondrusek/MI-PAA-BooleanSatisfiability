@@ -1,5 +1,7 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ure.phd.simulatedannealing.interfaces.SimulatedAnnealingProblem;
@@ -13,6 +15,8 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 
 	private Random random = new Random();
 
+	private List<State> satisfiable = new ArrayList<>();
+
 	private long numOfStates;
 	private long totalNumOfStates;
 
@@ -22,7 +26,7 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 		initTotalNumOfStates();
 
 		SimulatedAnnealingScheduler scheduler = new SimulatedAnnealingScheduler(getInitialTemperature(), 0.0001, 0.995,
-				3);
+				1000);
 		scheduler.reset();
 
 		SimulatedAnnealingProblemSolver problemSolver = new SimulatedAnnealingProblemSolver(scheduler, this);
@@ -30,6 +34,7 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 		problemSolver.solve();
 		result.setNumOfStates(new Long(numOfStates));
 		result.setFormula(getFormula());
+		result.setSatisfiable(satisfiable);
 
 		setResult(result);
 	}
@@ -80,7 +85,9 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 	public void goToNextState() {
 		current = next;
 		getFormula().setState(current);
-		next = null;
+		if (getFormula().isSatisfiable()) {
+			satisfiable.add(current);
+		}
 	}
 
 	@Override

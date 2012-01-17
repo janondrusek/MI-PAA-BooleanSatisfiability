@@ -1,5 +1,7 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.domain;
 
+import org.apache.commons.lang3.BooleanUtils;
+
 public class Clause {
 
 	private Boolean[] signa;
@@ -19,15 +21,14 @@ public class Clause {
 
 	private void initSigna(Integer[] variables) {
 		for (int i = 0; i < variables.length; i++) {
-			signa[i] = variables[i] > 0;
+			signa[i] = new Boolean(variables[i] < 0);
 		}
 	}
 
 	private void initIndices(Integer[] variables) {
 		for (int i = 0; i < variables.length; i++) {
-			indices[i] = Math.abs(variables[i]) - 1;
+			indices[i] = new Integer(Math.abs(variables[i]) - 1);
 		}
-
 	}
 
 	public Boolean[] getSigna() {
@@ -39,11 +40,11 @@ public class Clause {
 	}
 
 	public Boolean getValue(State state) {
-		boolean value = false;
+		boolean[] values = new boolean[getIndices().length];
 		for (int i = 0; i < getIndices().length; i++) {
-			value = value || state.getValue(getIndices()[i]).booleanValue() ^ getSigna()[i].booleanValue();
+			values[i] = state.getValue(getIndices()[i]).booleanValue() ^ getSigna()[i].booleanValue();
 		}
-		return new Boolean(value);
+		return new Boolean(BooleanUtils.or(values));
 	}
 
 }

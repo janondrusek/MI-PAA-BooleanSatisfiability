@@ -53,6 +53,7 @@ public class SATRunner {
 		}
 	}
 
+	@SuppressWarnings("restriction")
 	private static long getCpuTime() {
 		return ((com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean())
 				.getProcessCpuTime();

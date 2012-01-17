@@ -1,7 +1,10 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing;
 
+import java.util.List;
+
 import cz.cvut.fit.mi_paa.booolean_satisfability.Result;
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
+import cz.cvut.fit.mi_paa.booolean_satisfability.domain.State;
 
 public class SimulatedAnnealingResult implements Result {
 
@@ -9,22 +12,46 @@ public class SimulatedAnnealingResult implements Result {
 
 	private Long numOfStates;
 
+	private List<State> satisfiable;
+
 	@Override
 	public String toString() {
+		State best = getBest();
+
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("SimulatedAnnealingResult[");
 		sb.append("numOfStates=");
 		sb.append(getNumOfStates());
 		sb.append(", satisfiable=");
-		sb.append(formula.isSatisfiable());
+		sb.append(satisfiable.size());
 		sb.append(", value=");
-		sb.append(formula.getState().getCost(formula));
+		sb.append(getValue(best));
 		sb.append(", ");
-		sb.append(formula.getState());
+		sb.append(best);
 		sb.append("]");
 
 		return sb.toString();
+	}
+
+	private State getBest() {
+		State best = null;
+		for (State state : satisfiable) {
+			if (getValue(state) > getValue(best)) {
+				best = state;
+			}
+		}
+		return best;
+	}
+
+	private Double getValue(State state) {
+		double value = 0;
+		if (state != null) {
+			for (int i = 0; i < formula.getNumOfVariables(); i++) {
+				value += state.getValue(i).booleanValue() ? formula.getWeights()[i].doubleValue() : 0;
+			}
+		}
+		return new Double(value);
 	}
 
 	public Long getNumOfStates() {
@@ -37,6 +64,10 @@ public class SimulatedAnnealingResult implements Result {
 
 	public void setFormula(Formula formula) {
 		this.formula = formula;
+	}
+
+	public void setSatisfiable(List<State> satisfiable) {
+		this.satisfiable = satisfiable;
 	}
 
 }
