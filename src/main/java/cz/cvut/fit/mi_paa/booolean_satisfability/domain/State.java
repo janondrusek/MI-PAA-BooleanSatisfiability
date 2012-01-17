@@ -1,5 +1,7 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.domain;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class State {
 
 	private Boolean[] values;
@@ -9,6 +11,11 @@ public class State {
 	public State(Formula formula) {
 		this.formula = formula;
 		init();
+	}
+
+	private State(Formula formula, Boolean[] values) {
+		this(formula);
+		this.values = values;
 	}
 
 	private void init() {
@@ -39,8 +46,24 @@ public class State {
 	}
 
 	public double getCost() {
-		
-		return 0;
+		double cost = 0;
+		for (int i = 0; i < getValues().length; i++) {
+			cost += values[i].booleanValue() ? getFormula().getWeights()[i].doubleValue() : 0;
+		}
+
+		if (!getFormula().isSatisfiable()) {
+			cost -= getFormula().getWeightsSum().doubleValue();
+		}
+
+		return cost;
 	}
 
+	public void setValue(int index, Boolean value) {
+		values[index] = value;
+	}
+
+	@Override
+	public State clone() {
+		return new State(getFormula(), ArrayUtils.clone(getValues()));
+	}
 }

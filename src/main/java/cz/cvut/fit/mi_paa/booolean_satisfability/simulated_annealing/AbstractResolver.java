@@ -14,9 +14,10 @@ public abstract class AbstractResolver implements Resolver {
 
 	@Override
 	public Result getResult(Integer loopCount, Formula formula) {
-		createResult();
 		this.loopCount = loopCount;
 		this.formula = formula;
+		createResult();
+		
 		return result;
 	}
 
