@@ -1,26 +1,24 @@
 package cz.cvut.fit.mi_paa.booolean_satisfability.domain;
 
+import java.util.Arrays;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 public class State {
 
 	private Boolean[] values;
 
-	private Formula formula;
-
-	public State(Formula formula) {
-		this.formula = formula;
-		init();
+	public State(Integer numOfVariables) {
+		init(numOfVariables);
 	}
 
-	private State(Formula formula, Boolean[] values) {
-		this(formula);
+	private State(Boolean[] values) {
 		this.values = values;
 	}
 
-	private void init() {
-		values = new Boolean[getFormula().getNumOfVariables()];
-		for (int i = 0; i < getFormula().getNumOfVariables(); i++) {
+	private void init(Integer numOfVariables) {
+		values = new Boolean[numOfVariables];
+		for (int i = 0; i < numOfVariables; i++) {
 			values[i] = Boolean.FALSE;
 		}
 	}
@@ -33,26 +31,18 @@ public class State {
 		this.values = values;
 	}
 
-	public Formula getFormula() {
-		return formula;
-	}
-
-	public void setFormula(Formula formula) {
-		this.formula = formula;
-	}
-
 	public Boolean getValue(Integer index) {
 		return values[index];
 	}
 
-	public double getCost() {
+	public double getCost(Formula formula) {
 		double cost = 0;
 		for (int i = 0; i < getValues().length; i++) {
-			cost += values[i].booleanValue() ? getFormula().getWeights()[i].doubleValue() : 0;
+			cost += values[i].booleanValue() ? formula.getWeights()[i].doubleValue() : 0;
 		}
 
-		if (!getFormula().isSatisfiable()) {
-			cost -= getFormula().getWeightsSum().doubleValue();
+		if (!formula.isSatisfiable()) {
+			cost -= formula.getWeightsSum().doubleValue();
 		}
 
 		return cost;
@@ -64,6 +54,11 @@ public class State {
 
 	@Override
 	public State clone() {
-		return new State(getFormula(), ArrayUtils.clone(getValues()));
+		return new State(ArrayUtils.clone(getValues()));
+	}
+
+	@Override
+	public String toString() {
+		return "State[" + Arrays.toString(values) + "]";
 	}
 }

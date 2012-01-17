@@ -6,8 +6,6 @@ public class Clause {
 
 	private Integer[] indices;
 
-	private State state;
-
 	public Clause(Integer[] variables) {
 		initArrays(variables.length);
 		initSigna(variables);
@@ -40,20 +38,12 @@ public class Clause {
 		return indices;
 	}
 
-	public State getState() {
-		return state;
-	}
-
-	public void setState(State state) {
-		this.state = state;
-	}
-
-	public Boolean getValue() {
-		Boolean value = false;
+	public Boolean getValue(State state) {
+		boolean value = false;
 		for (int i = 0; i < getIndices().length; i++) {
-			value |= getState().getValue(getIndices()[i]) ^ getSigna()[i];
+			value = value || state.getValue(getIndices()[i]).booleanValue() ^ getSigna()[i].booleanValue();
 		}
-		return value;
+		return new Boolean(value);
 	}
 
 }

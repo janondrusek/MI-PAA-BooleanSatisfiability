@@ -28,51 +28,59 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 		SimulatedAnnealingProblemSolver problemSolver = new SimulatedAnnealingProblemSolver(scheduler, this);
 
 		problemSolver.solve();
+		result.setNumOfStates(new Long(numOfStates));
 		result.setFormula(getFormula());
-		result.setState(current);
 
 		setResult(result);
-
 	}
 
 	private double getInitialTemperature() {
-		return getFormula().getWeightsSum();
+		return getFormula().getWeightsSum() * getFormula().getNumOfVariables();
 	}
 
 	private void initTotalNumOfStates() {
-		totalNumOfStates = (long) Math.pow(2D, getFormula().getNumOfVariables());
+		totalNumOfStates = (long) Math.pow(2, getFormula().getNumOfVariables());
 	}
 
 	@Override
 	public void init() {
-		current = new State(getFormula());
+		current = new State(getFormula().getNumOfVariables());
+		getFormula().setState(current);
 	}
 
 	@Override
 	public double getCostForCurrentState() {
-		return current.getCost();
+		getFormula().setState(current);
+		return current.getCost(getFormula());
 	}
 
 	@Override
 	public void createNextState() {
 		numOfStates++;
 		next = current.clone();
-		swapValue(next);
+		swapValue();
 	}
 
-	private void swapValue(State state) {
-		int index = random.nextInt(getFormula().getNumOfVariables());
-		state.setValue(index, new Boolean(!state.getValue(index)));
+	private void swapValue() {
+		int index = getRandomInt();
+		next.setValue(index, new Boolean(!next.getValue(index).booleanValue()));
+	}
+
+	private int getRandomInt() {
+		return random.nextInt(getFormula().getNumOfVariables().intValue());
 	}
 
 	@Override
 	public double getCostForNextState() {
-		return next.getCost();
+		getFormula().setState(next);
+		return next.getCost(getFormula());
 	}
 
 	@Override
 	public void goToNextState() {
 		current = next;
+		getFormula().setState(current);
+		next = null;
 	}
 
 	@Override

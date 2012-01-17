@@ -6,6 +6,8 @@ public class Formula {
 
 	private Integer[] weights;
 
+	private State state;
+
 	public Formula(Clause[] clauses, Integer[] weights) {
 		this.clauses = clauses;
 		this.weights = weights;
@@ -24,11 +26,23 @@ public class Formula {
 	}
 
 	public Boolean isSatisfiable() {
-		Boolean satisfiable = Boolean.TRUE;
+		boolean satisfiable = true;
 		for (Clause clause : getClauses()) {
-			satisfiable &= clause.getValue();
+			satisfiable = satisfiable && clause.getValue(getState()).booleanValue();
 		}
-		return satisfiable;
+
+		if (satisfiable) {
+			System.out.println(getState());
+		}
+		return new Boolean(satisfiable);
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
 	}
 
 	public Integer getWeightsSum() {
