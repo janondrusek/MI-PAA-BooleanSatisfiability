@@ -40,7 +40,32 @@ public class State {
 		for (int i = 0; i < getValues().length; i++) {
 			cost -= values[i].booleanValue() ? formula.getWeights()[i].doubleValue() : 0;
 		}
-		return cost;
+		return cost + getPenalty(formula);
+	}
+
+	private int getPenalty(Formula formula) {
+		int maxWeight = max(formula.getWeights());
+		return getNumOfUnsatisfiedClauses(formula) * maxWeight;
+	}
+
+	private int max(Integer[] values) {
+		int max = 0;
+		for (Integer value : values) {
+			if (value.intValue() > max) {
+				max = value.intValue();
+			}
+		}
+		return max;
+	}
+
+	private int getNumOfUnsatisfiedClauses(Formula formula) {
+		int satisfied = formula.getClauses().length;
+		for (Clause clause : formula.getClauses()) {
+			if (clause.getValue(this).booleanValue()) {
+				satisfied--;
+			}
+		}
+		return satisfied;
 	}
 
 	public void setValue(int index, Boolean value) {
