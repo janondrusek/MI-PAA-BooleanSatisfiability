@@ -25,7 +25,7 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 		SimulatedAnnealingResult result = new SimulatedAnnealingResult();
 		initTotalNumOfStates();
 
-		SimulatedAnnealingScheduler scheduler = new SimulatedAnnealingScheduler(getInitialTemperature(), 0.0001, 0.995,
+		SimulatedAnnealingScheduler scheduler = new SimulatedAnnealingScheduler(getInitialTemperature(), 0.001, 0.97,
 				1000);
 		scheduler.reset();
 

@@ -12,6 +12,7 @@ import cz.cvut.fit.mi_paa.booolean_satisfability.builder.FormulaBuilder;
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Formula;
 import cz.cvut.fit.mi_paa.booolean_satisfability.domain.Row;
 import cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing.SimulatedAnnealingResolver;
+import cz.cvut.fit.mi_paa.booolean_satisfability.simulated_annealing.SimulatedAnnealingResults;
 
 public class SATRunner {
 
@@ -20,12 +21,15 @@ public class SATRunner {
 		long startCpu = getCpuTime();
 		long startTimestamp = System.currentTimeMillis();
 		try {
-			String[] files = { args[0] };
-			for (String file : files) {
-				System.out.println(file);
-				FormulaReader kr = getFormulaReader(file);
-				solveFormula(kr, Integer.parseInt(args[1]));
+			String[] files = { "src/main/resources/cnf20_w/uf20-010_w.cnf",
+					"src/main/resources/cnf20_w/uf20-011_w.cnf", "src/main/resources/cnf20_w/uf20-012_w.cnf" };
+			Result[] results = new Result[files.length];
+			for (int i = 0; i < files.length; i++) {
+				System.out.println(files[i]);
+				FormulaReader kr = getFormulaReader(files[i]);
+				results[i] = solveFormula(kr, Integer.parseInt(args[1]));
 			}
+			System.out.println(new SimulatedAnnealingResults(results));
 		} catch (Exception e) {
 			help(e.getMessage());
 			e.printStackTrace();
@@ -38,7 +42,8 @@ public class SATRunner {
 		return new FormulaReader(new File(file));
 	}
 
-	private static void solveFormula(FormulaReader kr, int loopCount) {
+	private static Result solveFormula(FormulaReader kr, int loopCount) {
+		Result result = null;
 		List<Row> rows = new ArrayList<Row>();
 		while (kr.hasNext()) {
 			rows.add(kr.next());
@@ -48,9 +53,9 @@ public class SATRunner {
 		Formula formula = builder.getObject();
 		Resolver[] resolvers = new Resolver[] { new SimulatedAnnealingResolver() };
 		for (Resolver resolver : resolvers) {
-			Result result = resolver.getResult(loopCount, formula);
-			System.out.println(result);
+			result = resolver.getResult(loopCount, formula);
 		}
+		return result;
 	}
 
 	@SuppressWarnings("restriction")
