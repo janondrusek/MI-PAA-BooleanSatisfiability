@@ -34,7 +34,8 @@ public class SimulatedAnnealingResult implements Result {
 		return sb.toString();
 	}
 
-	private State getBest() {
+	@Override
+	public State getBest() {
 		State best = null;
 		for (State state : satisfiable) {
 			if (getValue(state) > getValue(best)) {
@@ -44,7 +45,8 @@ public class SimulatedAnnealingResult implements Result {
 		return best;
 	}
 
-	private Double getValue(State state) {
+	@Override
+	public Double getValue(State state) {
 		double value = 0;
 		if (state != null) {
 			for (int i = 0; i < formula.getNumOfVariables(); i++) {
@@ -54,6 +56,7 @@ public class SimulatedAnnealingResult implements Result {
 		return new Double(value);
 	}
 
+	@Override
 	public Long getNumOfStates() {
 		return numOfStates;
 	}
@@ -62,12 +65,21 @@ public class SimulatedAnnealingResult implements Result {
 		this.numOfStates = numOfStates;
 	}
 
+	public Formula getFormula() {
+		return formula;
+	}
+
 	public void setFormula(Formula formula) {
 		this.formula = formula;
 	}
 
 	public void setSatisfiable(List<State> satisfiable) {
 		this.satisfiable = satisfiable;
+	}
+
+	@Override
+	public List<State> getSatisfiable() {
+		return satisfiable;
 	}
 
 }
