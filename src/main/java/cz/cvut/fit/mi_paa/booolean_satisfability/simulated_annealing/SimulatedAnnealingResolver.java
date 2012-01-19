@@ -32,7 +32,7 @@ public class SimulatedAnnealingResolver extends AbstractResolver implements Simu
 		SimulatedAnnealingProblemSolver problemSolver = new SimulatedAnnealingProblemSolver(scheduler, this);
 
 		problemSolver.solve();
-		result.setNumOfStates(new Long(numOfStates));
+		result.setNumOfStates(new Long(scheduler.getIterationCount()));
 		result.setFormula(getFormula());
 		result.setSatisfiable(satisfiable);
 
